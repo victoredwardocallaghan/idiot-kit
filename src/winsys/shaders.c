@@ -7,25 +7,6 @@
 
 #include "shaders.h"
 
-// Shaders
-const GLchar* vertexShaderSource = "#version 330 core\n"
-    "layout (location = 0) in vec3 position;\n"
-    "layout (location = 1) in vec3 color;\n"
-    "out vec3 ourColor;\n"
-    "void main()\n"
-    "{\n"
-    "gl_Position = vec4(position, 1.0);\n"
-    "ourColor = color;\n"
-    "}\0";
-
-const GLchar* fragmentShaderSource = "#version 330 core\n"
-    "out vec4 color;\n"
-    "uniform vec4 ourColor;\n"
-    "void main()\n"
-    "{\n"
-    "color = ourColor;\n"
-    "}\n\0";
-
 // XXX how unfortant for now
 GLuint shaderProgram;
 
@@ -37,11 +18,11 @@ GLuint getShaderProgram(void)
 /**
  * Compile & Link our shader program
  */
-void build_glsl(void)
+void build_glsl(const GLchar** vertex_path, const GLchar** frag_path)
 {
 	/* Vertex shader */
 	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+	glShaderSource(vertexShader, 1, vertex_path, NULL);
 	glCompileShader(vertexShader);
 
 	/* Check for compile time errors */
@@ -53,10 +34,9 @@ void build_glsl(void)
 		fprintf(stderr, "ERROR::SHADER::VERTEX::COMPILATION_FAILED %s\n", infoLog);
 	}
 
-
 	/* Fragment shader */
 	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+	glShaderSource(fragmentShader, 1, frag_path, NULL);
 	glCompileShader(fragmentShader);
 
 	/* Check for compile time errors */

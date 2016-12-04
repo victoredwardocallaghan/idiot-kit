@@ -5,6 +5,6 @@
 
 GLuint getShaderProgram(void);
 
-void build_glsl(void);
+void build_glsl(const GLchar** vertex_path, const GLchar** frag_path);
 
 #endif
